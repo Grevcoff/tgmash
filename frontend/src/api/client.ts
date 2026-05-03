@@ -5,7 +5,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } f
 
 // Получаем базовый URL API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.PROD ? '/api' : 'http://localhost:8000/api');
+  (import.meta.env.PROD ? 'https://tgmash.onrender.com/api' : 'http://localhost:8000/api');
 
 // Класс для управления API клиентом
 class ApiClient {
