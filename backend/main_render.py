@@ -42,6 +42,18 @@ async def health_check():
         "environment": "production"
     }
 
+@app.post("/api/users/ensure")
+async def ensure_user():
+    """Тестовый эндпоинт для проверки работы"""
+    return {
+        "id": 1,
+        "tg_user_id": 123456789,
+        "first_name": "Тестовый",
+        "last_name": "Пользователь",
+        "username": "testuser",
+        "created_at": "2024-01-01T00:00:00Z"
+    }
+
 @app.get("/api/users/me")
 async def get_current_user():
     """Тестовый эндпоинт для проверки работы"""
