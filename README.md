@@ -113,81 +113,40 @@ frontend/
 - **PostgreSQL**: Основная база данных
 - **Supabase**: Хостинг и управление БД
 
-## 🚀 Деплой
+## 🚀 Деплой в продакшен
 
-### 1. Подготовка Supabase
+### ⚡ Быстрый старт (Render + Vercel)
 
-1. **Создайте проект в Supabase**
-   ```bash
-   # Установите Supabase CLI
-   npm install -g supabase
-   
-   # Войдите в аккаунт
-   supabase login
-   
-   # Создайте проект
-   supabase projects create
-   ```
+**Рекомендуемый вариант для новичков:**
 
-2. **Получите данные для подключения**
-   - Database URL: `postgresql://[user]:[password]@[host]:[port]/[database]`
-   - JWT Secret: из настроек проекта
-   - Project URL: для CORS
+1. **Backend на Render**: [DEPLOY_RENDER.md](./DEPLOY_RENDER.md)
+2. **Frontend на Vercel**: автоматический деплой
+3. **База данных**: PostgreSQL от Render
 
-### 2. Деплой Backend на Koyeb
+### 📋 Подробные инструкции
 
-1. **Создайте аккаунт на Koyeb**
-   - Зарегистрируйтесь на [koyeb.com](https://koyeb.com)
+#### Вариант 1: Render.com (рекомендуется)
+- 📖 [Полная инструкция](./DEPLOY_RENDER.md)
+- ✅ Бесплатный план
+- ✅ Автоматический деплой из GitHub
+- ✅ Встроенная PostgreSQL
+- ⚠️ Ограничение: может использовать последнюю версию Python
 
-2. **Подготовьте переменные окружения**
-   ```bash
-   TELEGRAM_BOT_TOKEN=your_bot_token
-   DATABASE_URL=your_supabase_database_url
-   CORS_ORIGINS=https://your-telegram-bot.vercel.app
-   PORT=8000
-   ```
+#### Вариант 2: Koyeb (продвинутый)
+- 📖 [Полная инструкция](./DEPLOY_KOYEB.md)
+- ✅ Полный контроль через Docker
+- ✅ Гарантированная версия Python 3.11.9
+- ✅ Более гибкие настройки
+- 💰 Требует платный план для PostgreSQL
 
-3. **Создайте Dockerfile и .dockerignore**
-   ```dockerfile
-   # Dockerfile уже создан в проекте
-   FROM python:3.11-slim
-   
-   WORKDIR /app
-   
-   COPY requirements.txt .
-   RUN pip install --no-cache-dir -r requirements.txt
-   
-   COPY . .
-   
-   CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-   ```
+### 🔧 Решение проблемы с версией Python
 
-4. **Деплой через Koyeb Dashboard**
-   - Создайте новый сервис
-   - Выберите GitHub репозиторий
-   - Установите переменные окружения
-   - Настройте порт 8000
-   - Деплой!
+Для Render добавлены файлы:
+- `backend/.python-version` - указывает Python 3.11.9
+- `backend/runtime.txt` - альтернативный способ
+- `backend/render.yaml` - конфигурация сервиса
 
-### 3. Деплой Frontend на Vercel
-
-1. **Создайте аккаунт на Vercel**
-   - Зарегистрируйтесь на [vercel.com](https://vercel.com)
-
-2. **Подключите GitHub репозиторий**
-   - Import Project → GitHub
-   - Выберите репозиторий проекта
-
-3. **Настройте переменные окружения**
-   ```bash
-   VITE_API_URL=https://your-koyeb-app.koyeb.app
-   ```
-
-4. **Автоматический деплой**
-   - Каждый push в main ветку автоматически деплоится
-   - Получите URL: `https://your-app.vercel.app`
-
-### 4. Настройка Telegram Bot
+### 📱 Настройка Telegram Bot
 
 1. **Создайте бота в @BotFather**
    ```
@@ -196,12 +155,35 @@ frontend/
    @your_bot_username
    ```
 
-2. **Получите токен**
-   - Сохраните `BOT_TOKEN` в безопасном месте
+2. **Получите токен** и добавьте в переменные окружения
 
 3. **Настройте WebApp**
-   - В настройках бота добавьте URL вашего фронтенда
-   - Укажите домен: `your-app.vercel.app`
+   - В настройках бота добавьте URL фронтенда
+   - Укажите домен Vercel приложения
+
+### 🗄️ База данных
+
+#### Вариант А: Render PostgreSQL (простой)
+- Создается вместе с backend сервисом
+- Автоматически настраивается
+- Бесплатный план
+
+#### Вариант Б: Supabase (гибкий)
+- [supabase.com](https://supabase.com)
+- Больше возможностей
+- Бесплатный план
+
+#### Вариант В: Railway
+- [railway.app](https://railway.app)
+- Простая настройка
+- Хороший бесплатный план
+
+### ✅ Проверка деплоя
+
+После деплоя проверьте:
+- Backend: `https://your-app.onrender.com/health`
+- Frontend: `https://your-app.vercel.app`
+- API Docs: `https://your-app.onrender.com/docs`
 
 ## 📱 Локальная разработка
 
