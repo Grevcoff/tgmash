@@ -1,5 +1,6 @@
 /**
  * Основной компонент приложения
+ * Updated: 2026-05-03 - TypeScript fixes for Vercel deployment
  */
 import React, { useEffect, useState } from 'react';
 import { Home, Package, BarChart3, Settings, Menu, X } from 'lucide-react';
