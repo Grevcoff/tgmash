@@ -22,8 +22,8 @@ export const SettingsScreen: React.FC = () => {
 
   // Загрузка темы из Telegram WebApp
   useEffect(() => {
-    if (window.Telegram?.WebApp) {
-      const tgTheme = window.Telegram.WebApp.colorScheme;
+    if ((window as any).Telegram?.WebApp) {
+      const tgTheme = (window as any).Telegram.WebApp.colorScheme;
       if (tgTheme) {
         setTheme(tgTheme);
       }
@@ -35,7 +35,7 @@ export const SettingsScreen: React.FC = () => {
     setTheme(newTheme);
     
     // Применяем тему к Telegram WebApp
-    if (window.Telegram?.WebApp) {
+    if ((window as any).Telegram?.WebApp) {
       // Telegram WebApp сам управляет темой
       if (newTheme !== 'system') {
         // Можно добавить CSS переменные для кастомной темы
@@ -122,7 +122,7 @@ export const SettingsScreen: React.FC = () => {
                       name="theme"
                       value={value}
                       checked={theme === value}
-                      onChange={() => handleThemeChange(value)}
+                      onChange={() => handleThemeChange(value as typeof theme)}
                       className="sr-only peer"
                     />
                     <div className="flex flex-col items-center p-3 border rounded-lg cursor-pointer peer-checked:bg-blue-50 peer-checked:border-blue-300 hover:bg-gray-50">

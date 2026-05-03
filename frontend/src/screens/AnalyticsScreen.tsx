@@ -2,18 +2,17 @@
  * Экран аналитики и статистики
  */
 import React, { useEffect, useState } from 'react';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Calendar, Download, TrendingUp, DollarSign, Package, Activity } from 'lucide-react';
-import { useAppStore } from '@/store/useAppStore';
 import { apiEndpoints } from '@/api/endpoints';
 import { TelegramButton } from '@/components/TelegramButton';
-import type { StatsResponse, CategoryStats, DailyStats } from '@/types';
+import type { StatsResponse } from '@/types';
 import { formatCurrency, formatPercent, formatDate, formatWeight } from '@/utils/format';
 import { toast } from 'react-hot-toast';
 
 export const AnalyticsScreen: React.FC = () => {
   const [stats, setStats] = useState<StatsResponse | null>(null);
-  const [period, setPeriod] = useState<'week' | 'month' | 'all'>('month');
+  const [period, setPeriod] = useState<'week' | 'month' | 'all' | 'custom'>('month');
   const [isLoading, setIsLoading] = useState(true);
   const [customStart, setCustomStart] = useState('');
   const [customEnd, setCustomEnd] = useState('');
@@ -134,7 +133,7 @@ export const AnalyticsScreen: React.FC = () => {
               <TelegramButton
                 key={value}
                 variant={period === value ? 'primary' : 'secondary'}
-                onClick={() => handlePeriodChange(value)}
+                onClick={() => handlePeriodChange(value as typeof period)}
                 size="sm"
               >
                 {label}
@@ -271,7 +270,7 @@ export const AnalyticsScreen: React.FC = () => {
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {by_category.map((entry, index) => (
+                    {by_category.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>

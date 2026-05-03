@@ -20,7 +20,6 @@ export const DashboardScreen: React.FC = () => {
   const {
     overallStats: storeStats,
     plans,
-    transactions,
     setTransactionFormOpen,
     setEditingTransaction,
   } = useAppStore();
@@ -136,7 +135,7 @@ export const DashboardScreen: React.FC = () => {
             variant="secondary"
             onClick={() => {
               // TODO: Открыть экран аналитики
-              toast.info('Аналитика в разработке');
+              toast('Аналитика в разработке');
             }}
           >
             <TrendingUp className="h-4 w-4 mr-2" />

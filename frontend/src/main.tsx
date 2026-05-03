@@ -4,12 +4,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
-import App from './App';
+import { App } from './App';
 import './index.css';
 
 // Инициализация Telegram WebApp
-if (window.Telegram?.WebApp) {
-  const webApp = window.Telegram.WebApp;
+if ((window as any).Telegram?.WebApp) {
+  const webApp = (window as any).Telegram.WebApp;
   
   // Настройка WebApp
   webApp.ready();

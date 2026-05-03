@@ -103,7 +103,7 @@ interface AppActions {
 // Создание store
 export const useAppStore = create<AppState & AppActions>()(
   devtools(
-    (set, get) => ({
+    (set) => ({
       // Initial state
       user: null,
       isLoading: false,
