@@ -33,7 +33,7 @@ export const App: React.FC = () => {
         setLoading(true);
         
         // Проверяем Telegram WebApp
-        if (!window.Telegram?.WebApp) {
+        if (!(window as any).Telegram?.WebApp) {
           setError('Приложение должно быть открыто через Telegram');
           return;
         }
@@ -42,15 +42,15 @@ export const App: React.FC = () => {
         setTelegramReady(true);
         
         // Получаем тему
-        const theme = window.Telegram.WebApp.colorScheme || 'light';
+        const theme = (window as any).Telegram.WebApp.colorScheme || 'light';
         setTelegramTheme(theme as 'light' | 'dark');
 
         // Получаем или создаем пользователя
         const userData = await apiEndpoints.users.ensureUser();
         setUser(userData);
 
-        // Загружаем базовые данные
-        const [categoriesData, plansData, transactionsData, statsData] = await Promise.all([
+        // Загружаем базовые данные и обновляем store
+        const data = await Promise.all([
           apiEndpoints.categories.getCategories(),
           apiEndpoints.plans.getPlans(),
           apiEndpoints.transactions.getTransactions({ limit: 10 }),
@@ -58,10 +58,10 @@ export const App: React.FC = () => {
         ]);
 
         // Обновляем store
-        useAppStore.getState().setCategories(categoriesData);
-        useAppStore.getState().setPlans(plansData);
-        useAppStore.getState().setTransactions(transactionsData);
-        useAppStore.getState().setOverallStats(statsData);
+        useAppStore.getState().setCategories(data[0]);
+        useAppStore.getState().setPlans(data[1]);
+        useAppStore.getState().setTransactions(data[2]);
+        useAppStore.getState().setOverallStats(data[3]);
 
       } catch (error) {
         console.error('Error initializing app:', error);
