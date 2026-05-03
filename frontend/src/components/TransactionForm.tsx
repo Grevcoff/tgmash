@@ -12,11 +12,8 @@ import { CategoryAutocomplete } from './CategoryAutocomplete';
 import type { 
   TransactionWithRelations, 
   TransactionCreate, 
-  TransactionType,
   Category,
-  PlanWithStats 
 } from '@/types';
-import { formatCurrency } from '@/utils/format';
 import { toast } from 'react-hot-toast';
 
 // Валидация формы
@@ -53,8 +50,6 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm<TransactionFormData>({
@@ -71,9 +66,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     },
   });
 
-  const watchedType = watch('type');
-  const watchedPlanId = watch('plan_id');
-
+  
   // Эффект для установки категории при редактировании
   useEffect(() => {
     if (transaction && isOpen) {
@@ -221,7 +214,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             <CategoryAutocomplete
               value={selectedCategory?.name}
               onChange={setSelectedCategory}
-              type={watchedType}
+              type={transaction?.type || 'expense'}
               placeholder="Введите или выберите категорию..."
             />
             {errors.category_id && (

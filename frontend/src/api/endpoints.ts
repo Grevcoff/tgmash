@@ -8,12 +8,10 @@ import type {
   CategoryCreate,
   CategoryUpdate,
   CategoryListParams,
-  Plan,
   PlanWithStats,
   PlanCreate,
   PlanUpdate,
   PlanListParams,
-  Transaction,
   TransactionWithRelations,
   TransactionCreate,
   TransactionUpdate,
@@ -21,7 +19,6 @@ import type {
   StatsResponse,
   StatsParams,
   SuccessResponse,
-  ErrorResponse,
   CSVExportResponse,
 } from '@/types';
 

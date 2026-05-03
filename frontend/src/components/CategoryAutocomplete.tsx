@@ -31,8 +31,7 @@ export const CategoryAutocomplete: React.FC<CategoryAutocompleteProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showCreateButton, setShowCreateButton] = useState(false);
   
-  const categories = useAppStore((state) => state.categories);
-
+  
   // Дебаунс для поиска
   const debouncedSearch = useCallback(
     async (searchTerm: string) => {
