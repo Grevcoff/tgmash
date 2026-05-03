@@ -2,7 +2,7 @@
  * Экран управления планами выращивания
  */
 import React, { useEffect, useState } from 'react';
-import { Plus, MoreVertical, CheckCircle, Clock, Trash2, Edit, Download, X } from 'lucide-react';
+import { Plus, MoreVertical, CheckCircle, Clock, Trash2, Edit, Download } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { apiEndpoints } from '@/api/endpoints';
 import { TelegramButton } from '@/components/TelegramButton';
@@ -13,13 +13,12 @@ import { toast } from 'react-hot-toast';
 export const PlansScreen: React.FC = () => {
   const [plans, setPlans] = useState<PlanWithStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
-  const [showMenu, setShowMenu] = useState<number | null>(null);
+    const [showMenu, setShowMenu] = useState<number | null>(null);
   
   const {
     setPlanFormOpen,
     setEditingPlan,
-    deletePlan,
+    removePlan,
     updatePlan,
   } = useAppStore();
 
@@ -75,7 +74,7 @@ export const PlansScreen: React.FC = () => {
 
     try {
       await apiEndpoints.plans.deletePlan(plan.id);
-      deletePlan(plan.id);
+      removePlan(plan.id);
       toast.success(`План "${plan.name}" удален`);
     } catch (error) {
       console.error('Error deleting plan:', error);
@@ -96,12 +95,7 @@ export const PlansScreen: React.FC = () => {
     setShowMenu(null);
   };
 
-  // Обработка обновления после формы
-  const handlePlanSuccess = () => {
-    // Перезагружаем планы
-    window.location.reload();
-  };
-
+  
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -330,12 +324,6 @@ export const PlansScreen: React.FC = () => {
       )}
 
       {/* TODO: Форма плана */}
-      {/* <PlanForm
-        isOpen={useAppStore.getState().isPlanFormOpen}
-        onClose={() => setPlanFormOpen(false)}
-        onSuccess={handlePlanSuccess}
-        plan={useAppStore.getState().editingPlan}
-      /> */}
-    </div>
+          </div>
   );
 };

@@ -11,6 +11,9 @@ export type CategoryType = 'expense' | 'income';
 export interface User {
   id: number;
   tg_user_id: number;
+  first_name: string;
+  last_name?: string;
+  username?: string;
   created_at: string;
 }
 

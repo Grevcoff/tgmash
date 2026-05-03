@@ -2,7 +2,6 @@
  * Axios клиент с interceptors для Telegram WebApp аутентификации
  */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { TelegramWebApp } from '@/types';
 
 // Получаем базовый URL API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 
@@ -11,7 +10,6 @@ const API_BASE_URL = import.meta.env.VITE_API_URL ||
 // Класс для управления API клиентом
 class ApiClient {
   private client: AxiosInstance;
-  private isRefreshing = false;
   private failedQueue: Array<{
     resolve: (token: string) => void;
     reject: (error: any) => void;
@@ -34,13 +32,13 @@ class ApiClient {
     this.client.interceptors.request.use(
       (config) => {
         // Проверяем, что мы в Telegram WebApp
-        if (window.Telegram?.WebApp?.initData) {
-          const initData = window.Telegram.WebApp.initData;
+        if ((window as any).Telegram?.WebApp?.initData) {
+          const initData = (window as any).Telegram.WebApp.initData;
           config.headers.Authorization = `tma ${initData}`;
         }
         
         // Для разработки можно использовать заглушку
-        if (import.meta.env.DEV && !window.Telegram?.WebApp?.initData) {
+        if (import.meta.env.DEV && !(window as any).Telegram?.WebApp?.initData) {
           console.warn('⚠️ Telegram WebApp не найден. Используется режим разработки.');
           // Можно добавить тестовые данные для разработки
           // config.headers.Authorization = `tma test_data`;
@@ -66,16 +64,16 @@ class ApiClient {
           originalRequest._retry = true;
 
           // Если это проблема с initData, пытаемся обновить
-          if (window.Telegram?.WebApp?.initData) {
+          if ((window as any).Telegram?.WebApp?.initData) {
             try {
               // Проверяем актуальность initData
-              const authDate = parseInt(window.Telegram.WebApp.initDataUnsafe.auth_date || '0');
+              const authDate = parseInt((window as any).Telegram.WebApp.initDataUnsafe.auth_date || '0');
               const now = Math.floor(Date.now() / 1000);
               const maxAge = 24 * 60 * 60; // 24 часа
 
               if (now - authDate > maxAge) {
                 // initData устарел, нужно перезагрузить WebApp
-                window.Telegram.WebApp.close();
+                (window as any).Telegram.WebApp.close();
                 return Promise.reject(error);
               }
 

@@ -24,12 +24,6 @@ export const App: React.FC = () => {
     setError,
     setTelegramReady,
     setTelegramTheme,
-    categories,
-    plans,
-    transactions,
-    overallStats,
-    categoryStats,
-    dailyStats,
   } = useAppStore();
 
   // Инициализация приложения
