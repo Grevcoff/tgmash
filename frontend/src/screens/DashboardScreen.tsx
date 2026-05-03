@@ -114,7 +114,7 @@ export const DashboardScreen: React.FC = () => {
                   Прибыль: {formatCurrency(activePlan.profit)}
                 </p>
                 <p className={`text-xs ${activePlan.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  ROI: {activePlan.roi_percent.toFixed(1)}%
+                  ROI: {activePlan.roi_percent ? activePlan.roi_percent.toFixed(1) : '0.0'}%
                 </p>
               </div>
             </div>
